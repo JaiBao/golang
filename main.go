@@ -31,25 +31,37 @@
 
 // main.go
 
+// main.go
+
 package main
 
 import (
-    "github.com/labstack/echo/v4"
-    "goTest2/api"
+	"goTest2/api"
+	"fmt"
+	"github.com/labstack/echo/v4"
+
 )
 
 func main() {
-    // 初始化數據庫連接，替換為您的 MySQL 連接字符串
-    api.InitDB("username:password@tcp(127.0.0.1:3306)/grades")
+	fmt.Println("Starting the server...")
 
-    e := echo.New()
+	// 初始化數據庫連接
+	api.InitDB()
+    api.SelectDB()
 
-    // 設置路由
-    e.POST("/add-grade", api.AddGrade)
-    e.GET("/get-grades", api.GetGrades)
+	// 創建 Echo 實例
+	e := echo.New()
 
-    // 啟動服務
-    e.Start(":8080")
+	// 加載 API 路由
+	api.LoadRoutes(e)
+
+	// 啟動服務
+	e.Start(":8080")
+
+
+
+
 }
+
 
 
